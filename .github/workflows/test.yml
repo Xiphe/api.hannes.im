@@ -12,15 +12,38 @@ jobs:
         uses: actions/setup-ruby@v1
         with:
           ruby-version: 2.6.6
+      - name: Install bundler
+        run: |
+          gem install bundler
+          bundle config path vendor/bundle
       - name: Set up Node
         uses: actions/setup-node@v1
         with:
           node-version: 12.13.0
-      - name: Install dependencies
+      - uses: actions/cache@v2
+        id: cache-gems
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gems-
+      - name: Install ruby gems
+        if: steps.cache-gems.outputs.cache-hit != 'true'
         run: |
-          gem install bundler
           bundle install --jobs 4 --retry 3
-          yarn install
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - uses: actions/cache@v2
+        id: yarn-cache
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Install node packages
+        if: steps.yarn-cache.outputs.cache-hit != 'true'
+        run: yarn install
       - name: Setup test database
         env:
           RAILS_ENV: test
