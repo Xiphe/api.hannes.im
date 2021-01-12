@@ -1,0 +1,25 @@
+<h1>YouTube Videos</h1>
+
+<% if @data['prevPageToken'] %>
+    <a href="?page=<%= @data['prevPageToken'] %>">Prev Page</a>
+<% end %>
+<% if @data['nextPageToken'] %>
+    <a href="?page=<%= @data['nextPageToken'] %>">Next Page</a>
+<% end %>
+
+<% @data['items'].each do |item| %>
+    <h2><%= item['snippet']['title'] %></h2>
+    <p><%= item['snippet']['description'] %></p>
+    <p>
+        <a href="https://www.youtube.com/watch?v=<%= item['id']['videoId'] %>" target="_blank">
+           <img src="<%= item['snippet']['thumbnails']['high']['url'] %>" />
+        </a>
+    </p>
+<% end %>
+
+<% if @data['prevPageToken'] %>
+    <a href="?page=<%= @data['prevPageToken'] %>">Prev Page</a>
+<% end %>
+<% if @data['nextPageToken'] %>
+    <a href="?page=<%= @data['nextPageToken'] %>">Next Page</a>
+<% end %>
