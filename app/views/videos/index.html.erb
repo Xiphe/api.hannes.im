@@ -1,0 +1,12 @@
+<h1>Videos</h1>
+
+<% @videos.each do |video| %>
+    <h2><%= video.title %></h2>
+    <p><%= video.description %></p>
+    <p>
+        <a href="<%= video.url %>" target="_blank">
+           <img src="<%= video.thumbnail %>" />
+        </a>
+    </p>
+<% end %>
+
