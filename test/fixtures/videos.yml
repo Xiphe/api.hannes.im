@@ -7,7 +7,7 @@ one:
   url: MyString
   foreign_id: MyString
   platform: MyString
-  created: 2021-01-18 14:23:33
+  published_at: 2021-01-18 14:23:33
 
 two:
   title: MyString
@@ -16,4 +16,4 @@ two:
   url: MyString
   foreign_id: MyString
   platform: MyString
-  created: 2021-01-18 14:23:33
+  published_at: 2021-01-18 14:23:33
